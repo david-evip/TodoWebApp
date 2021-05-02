@@ -33,10 +33,12 @@ Fronted itt található ennek felépítése:
   - src:
     - App.js
       Ez a front-end szíve-lelke, itt hoztam létre az összes függvényt amit később tovább adok a kisebb componenseknek.
+      > Hosszabban kifejtve, az App egy osztály aminek az állapotában (state) tárolom a columnokat és todokat, ezen felül pár az URL-t hogy bármikor módosítható legyen. Drag-and-drop művelethez mivel a beatufil-dnd használtam, ezért megkövetelte hogy legyen egy onDragEnd függvény ami kezeli a lerakáskor a Todoval történő eseményt. Ezen felül található még CRUD megvalósításához számos handle függvény, amivel az API kéréseket végzem el. Próbáltam mindehol a lehetől egkevesebb API kérést végezni, de például egy Todo létrehozáskaor elkerülhetetlen hogy le is kérjem a POST után, hiszen a todoID-t a back-end intézi.
   - styles:
     - index.css
       Egyetlen .css fájl itt van, a színek és navbar megjelenésért felelős.
   - Components:
+    - > A components felépítése fentről lefele: Appon belül van egy Nav és egy MainGrid. A MainGrid a Grid.js-ben található, ezen beül vannak az oszlopok kirenderelve. Minden oszlop egy Category és minden Categoryn belül vannak Card-ok amik pedig a Todok. A CRUD függvények egészen felülről az App.js-ből származnak, mivel az ott lévő állapotot (state) változtatgatom, valamit így könnyeb votl felosztani.
     - Card.js
       Egy kártya lap megjelenítésért felel.
     - Category.js
