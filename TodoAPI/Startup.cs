@@ -48,12 +48,6 @@ namespace TodoAPI
             app.UseHttpsRedirection();
             app.UseStaticFiles();
             app.UseSpaStaticFiles();
-            /*
-             * Default
-            app.UseHttpsRedirection();
-            app.UseRouting();
-            app.UseAuthorization();
-            */
             app.UseRouting();
 
             app.UseEndpoints(endpoints =>
