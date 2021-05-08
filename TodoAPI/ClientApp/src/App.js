@@ -32,7 +32,6 @@ export default class App extends Component {
     const start = this.state.columns.find(column => column.columnID === parseInt(source.droppableId.split("-")[1]));
     const finish = this.state.columns.find(column => column.columnID === parseInt(destination.droppableId.split("-")[1]));
     const startIndex= this.state.columns.findIndex((column) => column.columnID === start.columnID);
-    const finishIndex = this.state.columns.findIndex((column) => column.columnID === finish.columnID);
 
     if (start === finish) {
       const tempTodos = Array.from(start.todos);
@@ -53,30 +52,13 @@ export default class App extends Component {
       return;
     }
     
-    const startTodos = Array.from(start.todos);
-    startTodos.splice(source.index, 1);
-    const newStart = {
-      ...start,
-      todos: startTodos,
-    };
-
-    const finishTempTodos = Array.from(finish.todos);
-    finishTempTodos.splice(destination.index, 0, start.todos[source.index]);
-    const finishFinalTodos = this.handleTodoUpdateMultiple(finishTempTodos);
-    const newFinish = {
-      ...finish,
-      todos: finishFinalTodos,
-    };
-    start.todos[source.index].columnID = newFinish.columnID;
-
-    const newState = {
-      ...this.state,
-    };
-    newState.columns[startIndex] = newStart;
-    newState.columns[finishIndex] = newFinish;
-    
-    this.handleTodoUpdate(start.todos[source.index], newState.columns[finishIndex], newFinish.columnID);
-    this.setState(newState);
+    finish.todos.splice(destination.index, 0, start.todos[source.index]);
+    start.todos[source.index].position = destination.index;
+    start.todos[source.index].columnID = finish.columnID;
+    this.handleTodoUpdateMultiple(finish.todos);
+    const todo = start.todos[source.index];
+    start.todos.splice(source.index, 1);
+    this.handleTodoUpdate(todo);
   };
 
   loadColumns = () => {
@@ -179,7 +161,7 @@ export default class App extends Component {
         this.loadColumns();
         this.loadTodos();
       }
-    });
+    })
   };
 
   handleTodoDelete = (todoIn) => {
